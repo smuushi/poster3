@@ -1,5 +1,7 @@
-const secretKey = process.env.AWS_SECRET_ACCESS_KEY;
-const accessKey = process.env.AWS_ACCESS_KEY_ID;
+require("dotenv").config();
+
+const secretKey = process.env.AWS_SECRET;
+const accessKey = process.env.AWS_ACCESS;
 // // console.log(accessKey);
 // // console.log(secretKey);
 const AWS = require("aws-sdk");
@@ -7,7 +9,7 @@ const AWS = require("aws-sdk");
 const s3 = new AWS.S3({ apiVersion: "2006-03-01", accessKeyId: accessKey, secretAccessKey: secretKey});
 
 
-const NAME_OF_BUCKET = (process.env.NODE_ENV === "production")? "what-ai-want-mern-dev" : "what-ai-want-mern-dev"; // <-- Use your bucket name here
+const NAME_OF_BUCKET = (process.env.NODE_ENV === "production")? "poster" : "what-ai-want-mern-dev"; // <-- Use your bucket name here
 const fs = require("fs")
 
 const fetch = import("node-fetch")
