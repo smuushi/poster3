@@ -114,7 +114,7 @@ const getUrlFromAwsWithKey = async (key) => {
     const url = s3.getSignedUrl("getObject",{
         Bucket: NAME_OF_BUCKET, 
         Key: key,
-        Expires: 1200
+        Expires: 12000
     })
 
     // // console.log(url)

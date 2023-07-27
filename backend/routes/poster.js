@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
+const {getUrlFromAwsWithKey, uploadToAWSWithURL} = require("../awsS3")
+
+
 const PosterDBModel = require("../models/Poster");
 
 
@@ -52,13 +55,13 @@ router.get('/poster', async function(req, res, next) {
 
             const poster = await newPoster.save();
 
-            
+            let signedUrl = await getUrlFromAwsWithKey(imageAWSKey);
 
             // const imageUrl = await imageUrlPromise;
 
             
 
-
+            res.json({signedUrl: signedUrl})
 
   
             // return res.json(imageUrl);
@@ -82,7 +85,7 @@ router.get('/poster', async function(req, res, next) {
   
     } catch (err) {
         // debugger
-      return res.json(err + "12312312");
+      res.json({error: err + "code: oh god..12312312"});
     }
 });
 
