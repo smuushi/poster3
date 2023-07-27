@@ -1,12 +1,15 @@
+import React from 'react'
 import { useState } from 'react'
-import { createPoster } from '../store/script'
+// import { createPoster } from '../store/script'
 import { useDispatch, useSelector } from "react-redux"
 import './PosterForm.css'
 
 function PosterForm() {
   const dispatch = useDispatch();
+  const [showPic, setShowPic] = useState(true);
   const [userScript, setScript] = useState("");
   const [userEmail, setUserEmail] = useState("");
+  const [picUrl, setPicUrl] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,7 +23,10 @@ function PosterForm() {
       const res = await fetch(`/api/poster?criteria=${data.script}&email=${data.email}`);
       if (res.ok) {
           const movieData = await res.json();
-          console.log(movieData)
+          setShowPic(true)
+          setPicUrl(movieData)
+          console.log(picUrl)
+          console.log(picUrl.signedUrl)
           return movieData;
       }
       } catch(err) {
@@ -33,7 +39,7 @@ function PosterForm() {
     <>
       <form className='form' onSubmit={handleSubmit}>
           <label className='field'
-            >Enter a Movie Script Below to have AI generate Movie Poster
+            >Enter a Movie Script Below to have AI generate a Movie Poster
               <textarea 
                   className='script'
                   value={userScript}
@@ -56,6 +62,7 @@ function PosterForm() {
             Generate
           </button>
       </form>
+      {showPic && <img src={picUrl.signedUrl} alt="poster"/>}
     </>
   )
 }
