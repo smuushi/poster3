@@ -9,10 +9,10 @@ const AWS = require("aws-sdk");
 const s3 = new AWS.S3({ apiVersion: "2006-03-01", accessKeyId: accessKey, secretAccessKey: secretKey});
 
 
-const NAME_OF_BUCKET = (process.env.NODE_ENV === "production")? "poster" : "what-ai-want-mern-dev"; // <-- Use your bucket name here
+const NAME_OF_BUCKET = (process.env.NODE_ENV === "production")? "postergenwithkeys" : "postergenwithkeys"; // <-- Use your bucket name here
 const fs = require("fs")
 
-const fetch = import("node-fetch")
+const fetch = require("node-fetch");
 
 const singleFileUpload = async (buffer, title) => {
     // const { originalname, buffer } = file;

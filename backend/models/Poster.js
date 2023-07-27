@@ -20,4 +20,4 @@ const posterSchema = new Schema(
 
 
 
-module.exports = mongoose.model("Image", posterSchema);
+module.exports = mongoose.model("Poster", posterSchema);

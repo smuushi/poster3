@@ -7,10 +7,19 @@ const {getUrlFromAwsWithKey, uploadToAWSWithURL} = require("../awsS3")
 const PosterDBModel = require("../models/Poster");
 
 
+const { Configuration, OpenAIApi } = require("openai");
+const config_1 = new Configuration({
+  apiKey: process.env.REACT_APP_OPENAI_API_KEY,
+});
+
+const ai = new OpenAIApi(config_1)
+
+
+
 /* GET home page. */
 /*
 
-https://www.example.com/poster?criteria=papaya&email=rutherford@baker.com
+localhost:5555/poster?criteria=papaya&email=rutherford@baker.com
 
 throwing a get request to here ^ does the following, 
 
@@ -19,7 +28,7 @@ email = rutherford@baker.com
 
 */
 
-router.get('/poster', async function(req, res, next) {
+router.get('/', async function(req, res, next) {
     try {
 
         const criteria = req.query.criteria;
@@ -45,7 +54,7 @@ router.get('/poster', async function(req, res, next) {
             console.log(data.data.data[0].url)
 
             // result.data.data[0].url
-            let imageAWSKey = uploadToAWSWithURL(data.data.data[0].url, Date.now() + criteria.slice(0,5));
+            let imageAWSKey = await uploadToAWSWithURL(data.data.data[0].url, Date.now() + criteria.slice(0,5));
 
             let newPoster = new PosterDBModel({
                 script: criteria, 
