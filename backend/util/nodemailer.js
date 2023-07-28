@@ -1,24 +1,26 @@
 const nodemailer = require("nodemailer");
 
-async function sendPoster(data, movieData) {
+async function sendPoster(email, url) {
     const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true,
+        service: 'gmail',
         auth: {
-            user: '',
-            pass: ''
+            type: 'OAuth2',
+            user: process.env.MAIL_USERNAME,
+            pass: process.env.MAIL_PASSWORD,
+            clientId: process.env.OAUTH_CLIENTID,
+            clientSecret: process.env.OAUTH_CLIENT_SECRET,
+            refreshToken: process.env.OAUTH_REFRESH_TOKEN
         }
     })
 
     const info = await transporter.sendMail({
         from: "movieposter85@gmail.com",
-        to: data.email,
+        to: email,
         subject: "Notification",
-        text: `Please click here for poster: ${movieData}`
+        text: `Please click here for poster: ${url}`
     })
 
     console.log("Message sent: %s", info.messageId)
-}
+};
 
-export default sendPoster;
+module.exports = sendPoster;

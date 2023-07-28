@@ -5,7 +5,7 @@ const {getUrlFromAwsWithKey, uploadToAWSWithURL} = require("../awsS3")
 
 
 const PosterDBModel = require("../models/Poster");
-
+const sendPoster = require("../util/nodemailer");
 
 const { Configuration, OpenAIApi } = require("openai");
 const config_1 = new Configuration({
@@ -68,7 +68,7 @@ router.get('/', async function(req, res, next) {
 
             // const imageUrl = await imageUrlPromise;
 
-            
+            sendPoster(email, signedUrl)
 
             res.json({signedUrl: signedUrl})
 
