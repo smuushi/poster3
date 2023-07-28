@@ -6,13 +6,15 @@ import './PosterForm.css'
 
 function PosterForm() {
   const dispatch = useDispatch();
-  const [showPic, setShowPic] = useState(true);
+  const [showPic, setShowPic] = useState(false);
   const [userScript, setScript] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [picUrl, setPicUrl] = useState("");
+  const [loadingPic, setLoadingPic] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoadingPic(true);
     let data = {
       script: userScript,
       email: userEmail
@@ -25,8 +27,8 @@ function PosterForm() {
           const movieData = await res.json();
           setShowPic(true)
           setPicUrl(movieData)
-          console.log(picUrl)
-          console.log(picUrl.signedUrl)
+          // console.log(picUrl)
+          // console.log(picUrl.signedUrl)
           return movieData;
       }
       } catch(err) {
@@ -34,6 +36,16 @@ function PosterForm() {
       console.log(resBody)
     }
   }
+
+  // <img src='../assets/loading.gif' alt='AI Generating'/>
+
+  let loading
+  if (loadingPic) {
+    loading = <div>Generating your poster now...</div>
+  } else {
+    loading = <div>Your Movie Poster Will Load here</div>
+  }
+
 
   return (
     <>
@@ -62,7 +74,7 @@ function PosterForm() {
             Generate
           </button>
       </form>
-      {showPic && <img src={picUrl.signedUrl} alt="poster"/>}
+      {showPic ? <img src={picUrl.signedUrl} alt="poster"/>: loading}
     </>
   )
 }
